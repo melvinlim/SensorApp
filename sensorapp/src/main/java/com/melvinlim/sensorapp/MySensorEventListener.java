@@ -25,7 +25,6 @@ public class MySensorEventListener implements SensorEventListener {
         String result="";
         for (int x : sensorTypeList){
             result += sensors[x];
-            result += "\n";
         }
         return result;
     }
