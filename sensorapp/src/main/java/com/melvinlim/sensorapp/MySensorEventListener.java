@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MySensorEventListener implements SensorEventListener {
     private List<Sensor> deviceSensors;
@@ -20,11 +21,11 @@ public class MySensorEventListener implements SensorEventListener {
     private final String[] sensors = new String[256];
 
     public String getData(){
-        String result="";
+        StringBuilder sb = new StringBuilder(sensors.length);
         for (int x : sensorTypeList){
-            result += sensors[x];
+            sb.append(sensors[x]);
         }
-        return result;
+        return sb.toString();
     }
 
     private void initSensors(){
@@ -64,11 +65,12 @@ public class MySensorEventListener implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         sensorValues=event.sensor.getName()+":\n";
 
+        StringBuilder sb = new StringBuilder(2 * event.values.length);
         for(int i=0;i<event.values.length;i++){
-            sensorValues+=(Float.toString(event.values[i]));
-            sensorValues+=" ";
+            sb.append(String.format(Locale.CANADA, "%.4f", event.values[i]));
+            sb.append(" ");
         }
-        sensorValues+="\n";
+        sensorValues += sb +"\n";
         sensors[event.sensor.getType()]=sensorValues;
     }
 
