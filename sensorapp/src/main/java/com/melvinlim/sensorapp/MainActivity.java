@@ -63,10 +63,6 @@ public class MainActivity extends Activity {
                     String timeStr = Long.toString(currentTime);
                     timeStr += "\n";
 
-                    //timeStr += Calendar.getInstance();
-
-                    //String pattern = "MM/dd/yyyy HH:mm:ss";
-                    //DateFormat df = new SimpleDateFormat(pattern);
                     DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.CANADA);
                     Date today = Calendar.getInstance().getTime();
                     timeStr += df.format(today);
