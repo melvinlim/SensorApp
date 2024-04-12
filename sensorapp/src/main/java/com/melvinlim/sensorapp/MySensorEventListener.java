@@ -10,12 +10,12 @@ import android.widget.TextView;
 import java.util.List;
 
 public class MySensorEventListener implements SensorEventListener {
-    private TextView sensorView = null;
     private List<Sensor> deviceSensors;
     public boolean listening;
+    public String sensorValues;
 
     private SensorManager sensorManager;
-    private static Context context = null;
+    private Context context = null;
 
     public CharSequence sensorList = "";
 
@@ -26,7 +26,6 @@ public class MySensorEventListener implements SensorEventListener {
             return;
         deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-        CharSequence str = "";
         for(int i=0;i<deviceSensors.size();i++){
             Sensor sensor = deviceSensors.get(i);
             sensorList += sensor.getName();
@@ -34,27 +33,41 @@ public class MySensorEventListener implements SensorEventListener {
         }
     }
 
-    public MySensorEventListener(Context context,TextView sensorView){
+    public MySensorEventListener(Context context){
         this.context = context;
-        this.sensorView = sensorView;
         initSensors();
+        registerSensorListeners();
     }
 
-    private void registerSensorListeners(){
+    public void registerSensorListeners(){
         if(deviceSensors!=null){
+            deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+            Sensor sensor = deviceSensors.get(0);
+            if(sensorManager!=null){
+                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+            }
+            /*
             for(int i=0;i<deviceSensors.size();i++) {
                 Sensor sensor = deviceSensors.get(i);
-                //sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
             }
+             */
         }
+    }
+
+    public void unregisterSensorListeners(){
+        sensorManager.unregisterListener(this);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(listening){
-            if(sensorView != null){
-
+            sensorValues="";
+            for(int i=0;i<event.values.length;i++){
+                sensorValues+=(Float.toString(event.values[i]));
+                sensorValues+=" ";
             }
+            sensorValues+="\n";
         }
     }
 

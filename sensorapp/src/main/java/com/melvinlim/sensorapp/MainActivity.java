@@ -21,26 +21,13 @@ public class MainActivity extends Activity {
     private Timer myTimer;
 
     void sensorTest(){
-        /*
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(sensorManager==null)
-            return;
-        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
-
-
-        CharSequence str = "";
-        for(int i=0;i<deviceSensors.size();i++){
-            Sensor sensor = deviceSensors.get(i);
-            str += sensor.getName();
-            str += "\n";
-        }
-        sensorView.setText(str);
-*/
         runOnUiThread(new Runnable() {
                           public void run() {
+                              CharSequence text = mySensorEventListener.sensorList;
+                              text += "\n";
+                              text += mySensorEventListener.sensorValues;
 
-                                sensorView.setText(mySensorEventListener.sensorList);
-                              //sensorView.setText(str);
+                              sensorView.setText(text);
                           }
                       });
     }
@@ -48,13 +35,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*
-        if(sensorManager==null)
-            return;
-        registerSensorListeners();
-         */
+        mySensorEventListener.registerSensorListeners();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mySensorEventListener.unregisterSensorListeners();
+    }
 
     public class MyTimerTask extends TimerTask {
 
@@ -97,7 +85,7 @@ public class MainActivity extends Activity {
 
         timerView = (TextView) findViewById(R.id.myTextView1);
         sensorView = (TextView) findViewById(R.id.myTextView2);
-        mySensorEventListener = new MySensorEventListener(getApplicationContext(), sensorView);
+        mySensorEventListener = new MySensorEventListener(getApplicationContext());
 
         myTimer = new Timer();
         MyTimerTask myTimerTask = new MyTimerTask();
