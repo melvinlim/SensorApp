@@ -16,10 +16,8 @@ public class MySensorEventListener implements SensorEventListener {
     private SensorManager sensorManager;
     private final Context context;
 
-    public CharSequence sensorList = "";
-
-    public List<Integer> sensorTypeList = new ArrayList<Integer>();
-    private String[] sensors = new String[256];
+    public List<Integer> sensorTypeList = new ArrayList<>();
+    private final String[] sensors = new String[256];
 
     public String getData(){
         String result="";
@@ -38,8 +36,6 @@ public class MySensorEventListener implements SensorEventListener {
 
         for(int i=0;i<deviceSensors.size();i++){
             Sensor sensor = deviceSensors.get(i);
-            sensorList += sensor.getName();
-            sensorList += "\n";
             sensorTypeList.add(sensor.getType());
         }
     }
@@ -66,7 +62,7 @@ public class MySensorEventListener implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        sensorValues=event.sensor.getName()+": ";
+        sensorValues=event.sensor.getName()+":\n";
 
         for(int i=0;i<event.values.length;i++){
             sensorValues+=(Float.toString(event.values[i]));

@@ -21,8 +21,7 @@ public class MainActivity extends Activity {
 
     void updateSensorData(){
         runOnUiThread(() -> {
-            CharSequence text = mySensorEventListener.sensorList;
-            text += "\n";
+            CharSequence text = "";
             text += mySensorEventListener.getData();
             sensorView.setText(text);
         });
