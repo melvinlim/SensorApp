@@ -25,7 +25,9 @@ public class MainActivity extends Activity {
                           public void run() {
                               CharSequence text = mySensorEventListener.sensorList;
                               text += "\n";
-                              text += mySensorEventListener.sensorValues;
+                              //text += mySensorEventListener.sensorValues;
+
+                              text += mySensorEventListener.getData();
 
                               sensorView.setText(text);
                           }
@@ -56,6 +58,7 @@ public class MainActivity extends Activity {
             timeStr += ZonedDateTime.now();
             timerView.setText(timeStr);
              */
+            sensorTest();
 
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -87,6 +90,5 @@ public class MainActivity extends Activity {
         MyTimerTask myTimerTask = new MyTimerTask();
         myTimer.schedule(myTimerTask, 0, 100);
 
-        sensorTest();
     }
 }
