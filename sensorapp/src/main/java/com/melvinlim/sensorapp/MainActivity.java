@@ -20,11 +20,9 @@ public class MainActivity extends Activity {
     private TextView timerView;
 
     void updateSensorData(){
-        runOnUiThread(() -> {
             CharSequence text = "";
             text += mySensorEventListener.getData();
             sensorView.setText(text);
-        });
     }
 
     @Override
@@ -51,7 +49,6 @@ public class MainActivity extends Activity {
             timeStr += ZonedDateTime.now();
             timerView.setText(timeStr);
              */
-            updateSensorData();
 
             runOnUiThread(() -> {
                 long currentTime = System.currentTimeMillis();
@@ -62,6 +59,8 @@ public class MainActivity extends Activity {
                 Date today = Calendar.getInstance().getTime();
                 timeStr += df.format(today);
                 timerView.setText(timeStr);
+
+                updateSensorData();
             });
 
         }
@@ -79,7 +78,7 @@ public class MainActivity extends Activity {
 
         Timer myTimer = new Timer();
         MyTimerTask myTimerTask = new MyTimerTask();
-        myTimer.schedule(myTimerTask, 0, 100);
+        myTimer.schedule(myTimerTask, 0, 500);
 
     }
 }
